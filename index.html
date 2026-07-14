@@ -89,16 +89,16 @@
     <div class="grp-title">Mat tieng Anh</div>
     <div class="field"><label>Chuc vu / Don vi - dong 1 <span class="ex">&mdash; vd: 5th Sales Unit</span></label><input id="posEN" type="text"></div>
     <div class="field"><label>Chuc vu / Don vi - dong 2 <span class="ex">&mdash; vd: Director</span></label><input id="deptEN" type="text"></div>
-    <div class="field"><label>Ho ten (English) <span class="ex">&mdash; vd: Le Hoang Anh</span></label><input id="nameEN" type="text"></div>
+    <div class="field"><label>Ho ten (English) <span class="ex">&mdash; vd: Nguy&#7877;n V&#259;n A</span></label><input id="nameEN" type="text"></div>
     <div class="divider"></div>
     <div class="grp-title">Mat tieng Nhat</div>
     <div class="field"><label>Dong 1 (JP) <span class="ex">&mdash; vd: &#31532;&#20116;&#20107;&#26989;&#25512;&#36914;&#26412;&#37096;</span></label><input id="deptJP" type="text"></div>
     <div class="field"><label>Dong 2 (JP) <span class="ex">&mdash; vd: &#26412;&#37096;&#38263;</span></label><input id="posJP" type="text"></div>
-    <div class="field"><label>Ho ten (Katakana) <span class="ex">&mdash; vd: &#12524;&#12288;&#12507;&#12450;&#12531;&#12288;&#12450;&#12452;&#12531;</span></label><input id="nameJP" type="text"></div>
+    <div class="field"><label>Ho ten (Katakana) <span class="ex">&mdash; vd: &#12464;&#12456;&#12531;&#12288;&#12532;&#12449;&#12531;&#12288;&#12450;</span></label><input id="nameJP" type="text"></div>
     <div class="divider"></div>
     <div class="grp-title">Dung chung 2 mat</div>
-    <div class="field"><label>Email <span class="ex">&mdash; vd: anhlh@kaopiz.com</span></label><input id="email" type="text"></div>
-    <div class="field"><label>Mobile <span class="ex">&mdash; vd: (+81) 80 - 3120 - 2014</span></label><input id="mobile" type="text"></div>
+    <div class="field"><label>Email <span class="ex">&mdash; vd: Abc@gmail.com</span></label><input id="email" type="text"></div>
+    <div class="field"><label>Mobile <span class="ex">&mdash; vd: 0123456789</span></label><input id="mobile" type="text"></div>
     <div class="divider"></div>
     <button class="btn btn-primary" id="reviewBtn">Kiem tra lan cuoi &amp; Xuat file &rarr;</button>
   </div>
@@ -546,9 +546,16 @@ function jpTitleLines(d){
   return [];
 }
 
+// Name Y in blue header: default for 2 title lines; nudge up when only 1 title line
+var NAME_Y_EN=12.277, NAME_Y_EN_ONE=11.35;
+var NAME_Y_JP=11.677, NAME_Y_JP_ONE=10.75;
+
 // [x, cy, sizePt, weight, color, text]
-function enLines(d){return enTitleLines(d).concat([
-  [41.0-LEFT_NUDGE,12.277,8.69,700,'#fff',d.nameEN],
+function enLines(d){
+  var titles=enTitleLines(d);
+  var nameY=titles.length===1?NAME_Y_EN_ONE:NAME_Y_EN;
+  return titles.concat([
+  [41.0-LEFT_NUDGE,nameY,8.69,700,'#fff',d.nameEN],
   [37.36-LEFT_NUDGE,19.014,5.97,300,INK,'Mail'],
   [37.36-LEFT_NUDGE,22.878,5.97,300,INK,'Tel'],
   [37.36-LEFT_NUDGE,26.723,5.97,300,INK,'Mobile'],
@@ -565,8 +572,11 @@ function enLines(d){return enTitleLines(d).concat([
   [51.22-LEFT_NUDGE,43.712,5.97,300,INK,'3-8-8 Minamiikebukuro, Toshima-ku,'],
   [51.22-LEFT_NUDGE,46.288,5.97,300,INK,'Tokyo, Japan, 171-0022']
 ]);}
-function jpLines(d){return jpTitleLines(d).concat([
-  [40.50-LEFT_NUDGE,11.677,8.69,700,'#fff',d.nameJP],
+function jpLines(d){
+  var titles=jpTitleLines(d);
+  var nameY=titles.length===1?NAME_Y_JP_ONE:NAME_Y_JP;
+  return titles.concat([
+  [40.50-LEFT_NUDGE,nameY,8.69,700,'#fff',d.nameJP],
   [37.57-LEFT_NUDGE,19.05,5.97,300,INK,'メール'],
   [37.57-LEFT_NUDGE,22.826,5.97,300,INK,'電話(代表)'],
   [37.57-LEFT_NUDGE,26.776,5.97,300,INK,'電話(直通)'],
@@ -618,9 +628,9 @@ function readData(){function v(id){return document.getElementById(id).value;}
 function render(){var d=readData();buildCard(document.getElementById('cardEN'),enLines(d));buildCard(document.getElementById('cardJP'),jpLines(d));}
 ['posEN','deptEN','nameEN','deptJP','posJP','nameJP','email','mobile'].forEach(function(id){document.getElementById(id).addEventListener('input',render);});
 
-var DEF={posEN:'5th Sales Unit',deptEN:'Director',nameEN:'Le Hoang Anh',
-  deptJP:'第五事業推進本部',posJP:'本部長',nameJP:'レ　ホアン　アイン',
-  email:'anhlh@kaopiz.com',mobile:'(+81) 80 - 3120 - 2014'};
+var DEF={posEN:'5th Sales Unit',deptEN:'Director',nameEN:'Nguyễn Văn A',
+  deptJP:'第五事業推進本部',posJP:'本部長',nameJP:'グエン　ヴァン　ア',
+  email:'Abc@gmail.com',mobile:'0123456789'};
 Object.keys(DEF).forEach(function(k){document.getElementById(k).value=DEF[k];});
 
 var overlay=document.getElementById('overlay');
