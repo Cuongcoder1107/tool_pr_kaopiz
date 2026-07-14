@@ -22,8 +22,9 @@
   .field{margin-bottom:13px;}
   .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px;}
   .field .ex{color:var(--muted);font-weight:400;font-size:11.5px;}
-  .field input{width:100%;padding:9px 11px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:inherit;}
-  .field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(60,156,215,.15);}
+  .field input,.field select{width:100%;padding:9px 11px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:inherit;background:#fff;}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(60,156,215,.15);}
+  .field select{cursor:pointer;}
   .divider{height:1px;background:var(--line);margin:15px 0;}
   .grp-title{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:700;margin:2px 0 10px;}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:10px;padding:12px 16px;font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;width:100%;}
@@ -97,6 +98,12 @@
     <div class="field"><label>Ho ten (Katakana) <span class="ex">&mdash; vd: &#12464;&#12456;&#12531;&#12288;&#12532;&#12449;&#12531;&#12288;&#12450;</span></label><input id="nameJP" type="text"></div>
     <div class="divider"></div>
     <div class="grp-title">Dung chung 2 mat</div>
+    <div class="field"><label>Cong ty</label>
+      <select id="company">
+        <option value="software">Kaopiz Software</option>
+        <option value="holdings">Kaopiz Holdings</option>
+      </select>
+    </div>
     <div class="field"><label>Email <span class="ex">&mdash; vd: Abc@gmail.com</span></label><input id="email" type="text"></div>
     <div class="field"><label>Mobile <span class="ex">&mdash; vd: 0123456789</span></label><input id="mobile" type="text"></div>
     <div class="divider"></div>
@@ -391,7 +398,7 @@ var LOGO_INNER=`<!-- Generator: Adobe Illustrator 30.5.1, SVG Export Plug-In . S
       </g>
     </g>
   </g>
-  <text class="st6" transform="translate(21.44 72.1)"><tspan x="0" y="0">Kaopiz Software JSC</tspan></text>
+  <text class="st6" transform="translate(21.44 72.1)"><tspan x="0" y="0">__COMPANY_NAME__</tspan></text>
   <g>
     <g>
       <text class="st1" transform="translate(381.4 100.32)"><tspan x="0" y="0">本社</tspan></text>
@@ -494,7 +501,7 @@ var LOGO_INNER=`<!-- Generator: Adobe Illustrator 30.5.1, SVG Export Plug-In . S
       <path class="st9" d="M92.17,38.85c0-.3-.24-.5-.61-.5h-.7v1.59h.31v-.56h.32l.4.56h.39l-.45-.62c.22-.09.34-.26.34-.48ZM91.85,38.86c0,.14-.12.23-.31.23h-.36v-.45h.37c.2,0,.31.07.31.22Z"/>
     </g>
   </g>
-  <text class="st6" transform="translate(296.56 72.1)"><tspan x="0" y="0">Kaopiz Software JSC</tspan></text>
+  <text class="st6" transform="translate(296.56 72.1)"><tspan x="0" y="0">__COMPANY_NAME__</tspan></text>
   <g>
     <polygon class="st9" points="358.84 51.47 358.85 51.46 365.12 43.15 365.12 43.15 365.12 41.93 356.93 41.93 356.93 43.48 362.76 43.48 362.76 43.53 362.76 43.54 356.41 51.92 356.4 51.94 356.4 53.07 365.12 53.07 365.12 51.51 358.84 51.51 358.84 51.47"/>
     <path class="st9" d="M326.11,46.23c0-2.16-.8-4.4-4.08-4.4-1.35,0-2.64.38-3.53.95l.45,1.29c.76-.49,1.8-.8,2.8-.8,2.2,0,2.44,1.6,2.44,2.49v.22c-4.15-.02-6.46,1.4-6.46,4,0,1.56,1.11,3.09,3.29,3.09,1.53,0,2.69-.75,3.29-1.6h.07l.16,1.6h1.78c-.14-.73-.18-1.89-.18-2.82v-4.02ZM323.94,49.21c0,.2-.05.42-.11.62-.31.91-1.2,1.8-2.6,1.8-1,0-1.84-.6-1.84-1.87,0-2.09,2.42-2.46,4.55-2.42v1.87Z"/>
@@ -566,7 +573,7 @@ function enLines(d){
   [51.22-LEFT_NUDGE,22.878,5.97,300,INK,'(+84) 24 - 6652 - 2105'],
   [51.22-LEFT_NUDGE,26.723,5.97,300,INK,d.mobile],
   [51.22-LEFT_NUDGE,30.992,5.97,300,INK,'https://kaopiz.com/'],
-  [51.22-LEFT_NUDGE,34.819,5.97,300,INK,'1F, 2F, 4F, 5F, 6F, CT1-C14 Bac Ha building,'],
+  [51.22-LEFT_NUDGE,34.819,5.97,300,INK,headOfficeFloors(d.company)],
   [51.22-LEFT_NUDGE,37.288,5.97,300,INK,'To Huu street, Dai Mo ward, Ha Noi'],
   [51.22-LEFT_NUDGE,41.226,5.97,300,INK,'CREAL SQUARE 3F'],
   [51.22-LEFT_NUDGE,43.712,5.97,300,INK,'3-8-8 Minamiikebukuro, Toshima-ku,'],
@@ -587,16 +594,20 @@ function jpLines(d){
   [51.44-LEFT_NUDGE,22.826,5.97,300,INK,'(+84) 24 - 6652 - 2105'],
   [51.44-LEFT_NUDGE,26.776,5.97,300,INK,d.mobile],
   [51.44-LEFT_NUDGE,30.992,5.97,300,INK,'https://kaopiz.com/'],
-  [51.44-LEFT_NUDGE,34.749,5.97,300,INK,'1F, 2F, 4F, 5F, 6F, CT1-C14 Bac Ha building,'],
+  [51.44-LEFT_NUDGE,34.749,5.97,300,INK,headOfficeFloors(d.company)],
   [51.44-LEFT_NUDGE,37.218,5.97,300,INK,'To Huu street, Dai Mo ward, Ha Noi'],
   [51.44-LEFT_NUDGE,41.028,5.97,300,INK,'〒171-0022'],
   [51.44-LEFT_NUDGE,43.536,5.97,300,INK,'東京都豊島区南池袋3-8-8'],
   [51.44-LEFT_NUDGE,46.182,5.97,300,INK,'CREAL SQUARE 池袋　3F']
 ]);}
 
-function buildCard(el, lines){
+function companyName(key){return key==='holdings'?'Kaopiz Holdings JSC':'Kaopiz Software JSC';}
+function logoMarkup(key){return LOGO_INNER.replace(/__COMPANY_NAME__/g, companyName(key));}
+function headOfficeFloors(key){return key==='holdings'?'4F, CT1-C14 Bac Ha building,':'1F, 4F, 5F, CT1-C14 Bac Ha building,';}
+
+function buildCard(el, lines, company){
   var h='';
-  h+='<svg class="lsvg" style="width:'+LOGO.w+'mm;height:'+LOGO.h+'mm;" viewBox="0 0 103 92" xmlns="http://www.w3.org/2000/svg">'+LOGO_INNER+'</svg>';
+  h+='<svg class="lsvg" style="width:'+LOGO.w+'mm;height:'+LOGO.h+'mm;" viewBox="0 0 103 92" xmlns="http://www.w3.org/2000/svg">'+logoMarkup(company)+'</svg>';
   for(var ci=0;ci<CERT_ITEMS.length;ci++){var C=CERT_ITEMS[ci];
     h+='<img class="limg" src="'+C.src+'" style="left:'+C.x+'mm;top:'+C.y+'mm;width:'+C.w+'mm;height:'+C.h+'mm;">';
   }
@@ -624,11 +635,12 @@ function fitCard(el){
 }
 
 function readData(){function v(id){return document.getElementById(id).value;}
-  return {posEN:v('posEN'),deptEN:v('deptEN'),nameEN:v('nameEN'),deptJP:v('deptJP'),posJP:v('posJP'),nameJP:v('nameJP'),email:v('email'),mobile:v('mobile')};}
-function render(){var d=readData();buildCard(document.getElementById('cardEN'),enLines(d));buildCard(document.getElementById('cardJP'),jpLines(d));}
+  return {company:v('company'),posEN:v('posEN'),deptEN:v('deptEN'),nameEN:v('nameEN'),deptJP:v('deptJP'),posJP:v('posJP'),nameJP:v('nameJP'),email:v('email'),mobile:v('mobile')};}
+function render(){var d=readData();buildCard(document.getElementById('cardEN'),enLines(d),d.company);buildCard(document.getElementById('cardJP'),jpLines(d),d.company);}
 ['posEN','deptEN','nameEN','deptJP','posJP','nameJP','email','mobile'].forEach(function(id){document.getElementById(id).addEventListener('input',render);});
+document.getElementById('company').addEventListener('change',render);
 
-var DEF={posEN:'5th Sales Unit',deptEN:'Director',nameEN:'Nguyễn Văn A',
+var DEF={company:'software',posEN:'5th Sales Unit',deptEN:'Director',nameEN:'Nguyễn Văn A',
   deptJP:'第五事業推進本部',posJP:'本部長',nameJP:'グエン　ヴァン　ア',
   email:'Abc@gmail.com',mobile:'0123456789'};
 Object.keys(DEF).forEach(function(k){document.getElementById(k).value=DEF[k];});
@@ -637,12 +649,13 @@ var overlay=document.getElementById('overlay');
 document.getElementById('reviewBtn').addEventListener('click',function(){
   var d=readData();
   document.getElementById('summary').innerHTML=
+    f('Cong ty',companyName(d.company))+
     f('Dong 1 (EN)',d.posEN)+f('Dong 2 (EN)',d.deptEN)+f('Ten (EN)',d.nameEN)+
     f('Dong 1 (JP)',d.deptJP)+f('Dong 2 (JP)',d.posJP)+f('Ten (JP)',d.nameJP)+
     f('Email',d.email)+f('Mobile',d.mobile);
   overlay.classList.add('show');
-  buildCard(document.getElementById('mCardEN'),enLines(d));
-  buildCard(document.getElementById('mCardJP'),jpLines(d));
+  buildCard(document.getElementById('mCardEN'),enLines(d),d.company);
+  buildCard(document.getElementById('mCardJP'),jpLines(d),d.company);
 });
 function f(l,v){return '<div><div class="s-lbl">'+tf(l)+'</div><div class="s-val">'+tf(v)+'</div></div>';}
 document.getElementById('backBtn').addEventListener('click',function(){overlay.classList.remove('show');});
@@ -653,10 +666,10 @@ function baseName(){var n=readData().nameEN||readData().nameJP||'namecard';retur
 // ---------- SVG export (vector) ----------
 var PT2MM=0.352778;
 function xesc(t){return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function cardSVG(lines, dy){
+function cardSVG(lines, dy, company){
   var s='<g transform="translate(0,'+dy+')">';
   s+='<rect x="0" y="0" width="90" height="55" fill="#ffffff"/>';
-  s+='<svg x="0" y="0" width="'+LOGO.w+'" height="'+LOGO.h+'" viewBox="0 0 103 92">'+LOGO_INNER+'</svg>';
+  s+='<svg x="0" y="0" width="'+LOGO.w+'" height="'+LOGO.h+'" viewBox="0 0 103 92">'+logoMarkup(company)+'</svg>';
   for(var ci=0;ci<CERT_ITEMS.length;ci++){var C=CERT_ITEMS[ci];
     s+='<image x="'+C.x+'" y="'+C.y+'" width="'+C.w+'" height="'+C.h+'" preserveAspectRatio="xMinYMin meet" xlink:href="'+C.src+'" href="'+C.src+'"/>';
   }
@@ -672,7 +685,7 @@ function cardSVG(lines, dy){
 function fullSVG(d){
   var s='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90mm" height="118mm" viewBox="0 0 90 118">';
   s+='<defs><style type="text/css">@import url(&quot;https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&amp;display=swap&quot;); text{font-family:&apos;Noto Sans JP&apos;,sans-serif;}</style></defs>';
-  s+='<rect x="0" y="0" width="90" height="118" fill="#ffffff"/>'+cardSVG(enLines(d),0)+cardSVG(jpLines(d),63)+'</svg>';
+  s+='<rect x="0" y="0" width="90" height="118" fill="#ffffff"/>'+cardSVG(enLines(d),0,d.company)+cardSVG(jpLines(d),63,d.company)+'</svg>';
   return s;
 }
 async function makeSVG(){
@@ -695,8 +708,8 @@ async function makeSVG(){
 // ---------- PDF via browser print (vector, no aliasing) ----------
 async function makePDF(){
   var d=readData(); await document.fonts.ready;
-  buildCard(document.getElementById('printEN'),enLines(d));
-  buildCard(document.getElementById('printJP'),jpLines(d));
+  buildCard(document.getElementById('printEN'),enLines(d),d.company);
+  buildCard(document.getElementById('printJP'),jpLines(d),d.company);
   window.print();
 }
 
