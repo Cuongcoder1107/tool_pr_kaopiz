@@ -40,7 +40,7 @@
   .mbox{display:flex;justify-content:center;align-items:flex-start;overflow:hidden;width:100%;height:calc(55mm * 1.4 + 8px);}
   .mzoom{transform:scale(1.4);transform-origin:top center;}
 
-  .card{position:relative;width:90mm;height:55mm;background:#fff;overflow:hidden;font-family:"Noto Sans JP",sans-serif;}
+  .card{position:relative;width:90mm;height:55mm;background:#fff;overflow:hidden;font-family:"Noto Sans JP",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .card .el{position:absolute;transform:translateY(-50%);white-space:nowrap;line-height:1;transform-origin:left center;}
   .card .box{position:absolute;}
   .card .limg{position:absolute;}
@@ -66,7 +66,8 @@
     #printwrap{display:block;}
     .pcard{width:90mm;height:55mm;overflow:hidden;page-break-after:always;}
     @page{size:90mm 55mm;margin:0;}
-    html,body{background:#fff;margin:0;}
+    html,body{background:#fff;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .card,.card *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   }
 </style>
 </head>
@@ -568,8 +569,9 @@ function buildCard(el, lines){
   for(var ci=0;ci<CERT_ITEMS.length;ci++){var C=CERT_ITEMS[ci];
     h+='<img class="limg" src="'+C.src+'" style="left:'+C.x+'mm;top:'+C.y+'mm;width:'+C.w+'mm;height:'+C.h+'mm;">';
   }
-  h+='<div class="box" style="left:'+HEADER.l+'mm;top:'+HEADER.t+'mm;width:'+HEADER.w+'mm;height:'+HEADER.h+'mm;background:'+BLUE+';"></div>';
-  h+='<div class="box" style="left:0;top:'+BAR.t+'mm;width:90mm;height:'+BAR.h+'mm;background:'+BLUE+';"></div>';
+  /* SVG shapes (not CSS background) so browser Print/PDF keeps the blue blocks */
+  h+='<svg class="box" style="left:'+HEADER.l+'mm;top:'+HEADER.t+'mm;width:'+HEADER.w+'mm;height:'+HEADER.h+'mm;" viewBox="0 0 '+HEADER.w+' '+HEADER.h+'" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="100%" height="100%" fill="'+BLUE+'"/></svg>';
+  h+='<svg class="box" style="left:0;top:'+BAR.t+'mm;width:90mm;height:'+BAR.h+'mm;" viewBox="0 0 90 '+BAR.h+'" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="100%" height="100%" fill="'+BLUE+'"/></svg>';
   for(var i=0;i<lines.length;i++){var L=lines[i];
     var isHeader=(L[4]==='#fff'); var isLabel=(!isHeader && L[0]<45);
     var mr=isLabel?50.6:89;
